@@ -1,6 +1,8 @@
 // Copyright © 2023 Ory Corp
 // SPDX-License-Identifier: Apache-2.0
 
+// NOTICE: Modified by Refurbed Marketplace GmbH (2026), see registry_default_autolink.go.
+
 package driver
 
 import (
@@ -321,7 +323,7 @@ func (m *RegistryDefault) selfServiceStrategies() []any {
 			m.selfserviceStrategies = []any{
 				profile.NewStrategy(m), // <- should remain first
 				password.NewStrategy(m),
-				oidc.NewStrategy(m),
+				oidc.NewStrategy(m, oidc.WithOnConflictingIdentity(AutoLinkConflictPolicy(m))),
 				code.NewStrategy(m),
 				link.NewStrategy(m),
 				totp.NewStrategy(m),
